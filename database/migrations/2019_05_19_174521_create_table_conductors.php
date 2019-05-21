@@ -15,13 +15,18 @@ class CreateTableConductors extends Migration
     {
         Schema::create('conductors', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string("name");
+            $table->string("first_name");
+            $table->string("last_name");
             $table->string('email');
             $table->unique('email');
 
             $table->string('phone')->nullable();
 
             $table->string('password');
+
+            $table->string("photo")->nullable();
+
+            $table->boolean("is_active")->default(true);
 
             $table->rememberToken();
             $table->timestamps();

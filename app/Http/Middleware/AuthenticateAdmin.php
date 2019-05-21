@@ -3,6 +3,7 @@
 namespace BahatiSACCO\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticateAdmin
 {
@@ -15,6 +16,11 @@ class AuthenticateAdmin
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        $guard = 'admin';
+
+        if(Auth::guard($guard)->check()){
+            return $next($request);
+        }
+        return redirect(url('admin/login'));
     }
 }

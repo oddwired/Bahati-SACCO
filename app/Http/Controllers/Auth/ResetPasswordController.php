@@ -10,7 +10,13 @@ use Illuminate\Http\Request;
 class ResetPasswordController extends Controller
 {
     public function index(Request $request){
+        $passwordReset = PasswordReset::where("access_hash", $request->reset_code)->first();
 
+        if(is_null($passwordReset)){
+            abort(404);
+        }
+
+        return view('password_reset');
     }
 
     public function reset(Request $request){
@@ -21,8 +27,7 @@ class ResetPasswordController extends Controller
         $passwordReset = PasswordReset::where("access_hash", $request->reset_code)->first();
 
         if(is_null($passwordReset)){
-            // TODO: return error
-            return back();
+            abort(404);
         }
 
         $user = null;

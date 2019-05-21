@@ -22,34 +22,55 @@ Route::post('/password-reset/{reset_code}', "Auth\ResetPasswordController@reset"
 
 /* ADMIN routes */
 
-Route::group(["prefix"=> "admin", "middleware"=> ["auth.admin"]], function(){
+Route::group(["prefix"=> "admin"], function(){
 
     /* Auth routes */
 
     Route::get('login', "Auth\Admin\AuthController@index");
     Route::post('login', "Auth\Admin\AuthController@login");
-    Route::get('logout', "Auth\Admin\AuthController@logout");
+    Route::post('logout', "Auth\Admin\AuthController@logout");
+
+    /* Authenticated routes */
+    Route::group(["middleware"=> ["auth.admin"]], function (){
+
+        Route::get('/', "Admin\AdminController@index");
+    });
 });
 
 /*MEMBER routes*/
 
-Route::group(["prefix"=> "member", "middleware"=> ["auth.member"]], function(){
+Route::group(["prefix"=> "member"], function(){
 
     /* Auth routes */
 
     Route::get('login', "Auth\Member\AuthController@index");
     Route::post('login', "Auth\Member\AuthController@login");
-    Route::get('logout', "Auth\Member\AuthController@logout");
+    Route::post('logout', "Auth\Member\AuthController@logout");
 
+    Route::get('forgot-password', "Auth\Member\AuthController@forgotPassword");
+    Route::post('forgot-password', "Auth\Member\AuthController@sendResetLink");
+
+    /* Authenticated routes */
+    Route::group(["middleware"=> ["auth.member"]], function(){
+        Route::get("/", "Member\MemberController@index");
+    });
 });
 
 /*CONDUCTOR routes*/
 
-Route::group(["prefix"=> "conductor", "middleware"=> ["auth.conductor"]], function(){
+Route::group(["prefix"=> "conductor"], function(){
 
     /* Auth routes */
 
     Route::get('login', "Auth\Conductor\AuthController@index");
     Route::post('login', "Auth\Conductor\AuthController@login");
-    Route::get('logout', "Auth\Conductor\AuthController@logout");
+    Route::post('logout', "Auth\Conductor\AuthController@logout");
+
+    Route::get('forgot-password', "Auth\Member\AuthController@forgotPassword");
+    Route::post('forgot-password', "Auth\Member\AuthController@sendResetLink");
+
+    /* Authenticated routes */
+    Route::group(["middleware"=> ["auth.conductor"]], function(){
+        Route::get("/", "Conductor\ConductorController@index");
+    });
 });

@@ -3,6 +3,7 @@
 namespace BahatiSACCO\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticateMember
 {
@@ -15,6 +16,11 @@ class AuthenticateMember
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        $guard = 'member';
+
+        if(Auth::guard($guard)->check()){
+            return $next($request);
+        }
+        return redirect(url('member/login'));
     }
 }
