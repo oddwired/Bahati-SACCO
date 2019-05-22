@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Mockery\Generator\StringManipulation\Pass\Pass;
 
-class CreatePasswordReset
+class CreatePasswordReset implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -28,7 +28,7 @@ class CreatePasswordReset
      * @param  ConductorCreated  $event
      * @return void
      */
-    public function handle(ConductorCreated $event)
+    public function handle($event)
     {
         $user = $event->user;
         $role = $event->role;
@@ -44,10 +44,10 @@ class CreatePasswordReset
 
 
         // EMAIL begin
-        $name = $user->name;
+        $name = $user->first_name;
         $email = $user->email;
         $subject = "Setup Your Account Password";
-        $body = "Follow the link below to setup your account password: \n ". url('reset-password/'.$access_hash);
+        $body = "Follow this link to reset your account password: ". url('password-reset/'.$access_hash);
 
         $email_send = new MailModel($name, $email, $subject, $body);
 

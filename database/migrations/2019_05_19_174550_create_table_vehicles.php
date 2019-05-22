@@ -18,7 +18,7 @@ class CreateTableVehicles extends Migration
             $table->string('registration');
             $table->unique('registration');
 
-            $table->bigInteger("owner_id")->unsigned();
+            $table->bigInteger("owner_id")->unsigned()->nullable();
             $table->integer('capacity')->default(14);
             $table->timestamps();
 

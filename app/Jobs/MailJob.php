@@ -33,7 +33,7 @@ class MailJob implements ShouldQueue
     public function handle()
     {
         $data = ["name"=> $this->data->name, "body"=> $this->data->body];
-        Mail::send("", $data, function ($message){
+        Mail::send("email.email", $data, function ($message){
             $message->to($this->data->email, $this->data->name)
                 ->subject($this->data->subject)
                 ->from("kshem@kabarak.ac.ke", "Bahati SACCO");

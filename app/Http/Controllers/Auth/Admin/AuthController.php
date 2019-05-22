@@ -14,7 +14,7 @@ class AuthController extends Controller
 
     public function login(Request $request){
         $this->validate($request, [
-            'username'=> 'required',
+            'username'=> ['required', 'exists:admins'],
             'password'=> 'required'
         ]);
 
@@ -24,10 +24,10 @@ class AuthController extends Controller
         ];
 
         if(Auth::guard('admin')->attempt($data)){
-            return redirect(); // TODO: redirect to admin page
+            return redirect(url('admin'));
         }
 
-        return back()->withErrors(["error"=> "Invalid credentials"]);
+        return back()->withErrors(["password"=> "Invalid password"]);
     }
 
     public function logout(){

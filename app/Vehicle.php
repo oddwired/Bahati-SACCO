@@ -9,7 +9,7 @@ class Vehicle extends Model
     protected $table = 'vehicles';
 
     protected $fillable = [
-        'owner_id', 'registration', 'capacity'
+        'registration'
     ];
 
     function owner(){

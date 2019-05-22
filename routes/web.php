@@ -34,6 +34,15 @@ Route::group(["prefix"=> "admin"], function(){
     Route::group(["middleware"=> ["auth.admin"]], function (){
 
         Route::get('/', "Admin\AdminController@index");
+
+        /* Members */
+        Route::get('members', "Admin\MembersController@index");
+        Route::post('register-member', "Auth\Member\AuthController@register");
+
+        /* Conductors */
+        Route::get('conductors', "Admin\ConductorsController@index");
+        Route::post('register-conductor', "Auth\Conductor\AuthController@register");
+
     });
 });
 
@@ -53,6 +62,9 @@ Route::group(["prefix"=> "member"], function(){
     /* Authenticated routes */
     Route::group(["middleware"=> ["auth.member"]], function(){
         Route::get("/", "Member\MemberController@index");
+
+        Route::get('vehicles', 'Member\MemberController@myVehicles');
+        Route::post('add-vehicle', 'VehiclesController@create');
     });
 });
 
@@ -66,11 +78,14 @@ Route::group(["prefix"=> "conductor"], function(){
     Route::post('login', "Auth\Conductor\AuthController@login");
     Route::post('logout', "Auth\Conductor\AuthController@logout");
 
-    Route::get('forgot-password', "Auth\Member\AuthController@forgotPassword");
-    Route::post('forgot-password', "Auth\Member\AuthController@sendResetLink");
+    Route::get('forgot-password', "Auth\Conductor\AuthController@forgotPassword");
+    Route::post('forgot-password', "Auth\Conductor\AuthController@sendResetLink");
 
     /* Authenticated routes */
     Route::group(["middleware"=> ["auth.conductor"]], function(){
         Route::get("/", "Conductor\ConductorController@index");
+
+        Route::get("reports", "Conductor\ConductorController@reports");
+        Route::post("record-trip", "TripController@logTrip");
     });
 });

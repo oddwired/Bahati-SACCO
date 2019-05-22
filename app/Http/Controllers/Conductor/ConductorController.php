@@ -3,6 +3,7 @@
 namespace BahatiSACCO\Http\Controllers\Conductor;
 
 use BahatiSACCO\Conductor;
+use BahatiSACCO\Vehicle;
 use Illuminate\Http\Request;
 use BahatiSACCO\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +11,15 @@ use Illuminate\Support\Facades\Auth;
 class ConductorController extends Controller
 {
     public function index(){
-        return view('conductor.home');
+        $vehicles = Vehicle::all();
+        $data = [
+            "vehicles"=> $vehicles
+        ];
+        return view('conductor.home', $data);
+    }
+
+    public function reports(){
+        return view('conductor.reports');
     }
 
     public function settings(){

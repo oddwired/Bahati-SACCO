@@ -173,6 +173,7 @@ return [
         BahatiSACCO\Providers\AuthServiceProvider::class,
         // BahatiSACCO\Providers\BroadcastServiceProvider::class,
         BahatiSACCO\Providers\EventServiceProvider::class,
+        BahatiSACCO\Providers\HorizonServiceProvider::class,
         BahatiSACCO\Providers\RouteServiceProvider::class,
 
     ],

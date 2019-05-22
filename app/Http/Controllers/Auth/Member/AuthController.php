@@ -18,7 +18,7 @@ class AuthController extends Controller
 
     public function login(Request $request){
         $this->validate($request, [
-            'email'=> ['required', 'string', 'email', 'max:255'],
+            'email'=> ['required', 'string', 'email', 'max:255', 'exists:members'],
             'password'=> ['required', 'string', 'max:255']
         ]);
 
@@ -28,10 +28,10 @@ class AuthController extends Controller
         ];
 
         if(Auth::guard('member')->attempt($data)){
-            return redirect(); //Redirect to member dashboard
+            return redirect(url('member')); //Redirect to member dashboard
         }
 
-        return back()->withErrors(["Error"=> "Invalid credentials"]);
+        return back()->withErrors(["password"=> "Invalid password"]);
     }
 
     public function register(Request $request){
@@ -42,8 +42,8 @@ class AuthController extends Controller
         ]);
 
         $data = [
-            "first_name"=> $request->first_name,
-            "last_name"=> $request->last_name,
+            "first_name"=> strtoupper($request->first_name),
+            "last_name"=> strtoupper($request->last_name),
             "email"=> $request->email,
             "password"=> bcrypt("$request->email".time())
         ];
@@ -79,7 +79,7 @@ class AuthController extends Controller
         $name = $user->name;
         $email = $user->email;
         $subject = "Password Reset";
-        $body = "Follow the link below to reset your account password: \n ". url('reset-password/'.$access_hash);
+        $body = "Follow this link to reset your account password: ". url('password-reset/'.$access_hash);
 
         $email_send = new MailModel($name, $email, $subject, $body);
 

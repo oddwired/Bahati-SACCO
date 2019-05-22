@@ -31,17 +31,19 @@ class ResetPasswordController extends Controller
         }
 
         $user = null;
+        $redirect = null;
         switch ($passwordReset->role){
             case "member":
                 $user = Member::where('email', $passwordReset->email)->first();
-
+                $redirect = "member/login";
                 break;
             case "conductor":
                 $user = Conductor::where('email', $passwordReset->email)->first();
+                $redirect = "conductor/login";
                 break;
 
             default:
-
+                $redirect = "/";
         }
 
         if(is_null($user)){
@@ -51,6 +53,6 @@ class ResetPasswordController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
 
-        return redirect(); // TODO: redirect user to their logins
+        return redirect(url($redirect))->with(['info'=> "Password reset successful. You can now login"]);
     }
 }
