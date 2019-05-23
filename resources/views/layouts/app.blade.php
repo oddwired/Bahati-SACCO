@@ -16,6 +16,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}">
 </head>
 <body>
 <div id="app">
@@ -111,6 +112,7 @@
 
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="{{asset('js/jquery-ui.min.js')}}"></script>
 @yield('jscontent')
 </body>
 </html>

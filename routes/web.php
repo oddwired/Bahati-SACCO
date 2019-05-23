@@ -65,6 +65,7 @@ Route::group(["prefix"=> "member"], function(){
 
         Route::get('vehicles', 'Member\MemberController@myVehicles');
         Route::post('add-vehicle', 'VehiclesController@create');
+        Route::get("reports", "ReportsController@getTripRecordsForMember");
     });
 });
 
@@ -85,7 +86,7 @@ Route::group(["prefix"=> "conductor"], function(){
     Route::group(["middleware"=> ["auth.conductor"]], function(){
         Route::get("/", "Conductor\ConductorController@index");
 
-        Route::get("reports", "Conductor\ConductorController@reports");
+        Route::get("reports", "ReportsController@getTripsRecordedByConductor");
         Route::post("record-trip", "TripController@logTrip");
     });
 });

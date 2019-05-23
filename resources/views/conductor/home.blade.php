@@ -68,14 +68,14 @@
                                             <input id="amount" type="number" min="0.01" step="0.01" class="form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}" name="amount" required autofocus>
                                             @if ($errors->has('amount'))
                                                 <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('amount') }}</strong>
-                                    </span>
+                                                        <strong>{{ $errors->first('amount') }}</strong>
+                                                    </span>
                                             @endif
                                         </div>
                                     </div>
 
-                                    <div class="row justify-content-center">
-                                        <button class="btn btn-primary">Record</button>
+                                    <div class="form-group row justify-content-center">
+                                        <button type="submit" class="btn btn-primary">{{__('Record')}}</button>
                                     </div>
                                 </form>
                             </div>
