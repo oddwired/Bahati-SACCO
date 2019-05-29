@@ -2,6 +2,8 @@
 
 namespace BahatiSACCO\Http\Controllers;
 
+use BahatiSACCO\Conductor;
+use BahatiSACCO\Http\Controllers\Admin\ConductorsController;
 use BahatiSACCO\Trip;
 use BahatiSACCO\Vehicle;
 use Illuminate\Http\Request;
@@ -41,8 +43,40 @@ class ReportsController extends Controller
             $conductor_id = Auth::guard('conductor')->id();
         }elseif(!$is_logged_in && $request->has('conductor_id')){
             $conductor_id = $request->conductor_id;
+        }elseif(Auth::guard('admin')->check()){
+
+            $conductor_id = Conductor::all();
+
+            if (count($conductor_id) == 0){
+                $conductor_id = null;
+            }else{
+                $conductor_id = $conductor_id->random()->id;
+            }
         }else{
             return back()->with(['error'=> "Error: Conductor not specified"]);
+        }
+
+        if(is_null($conductor_id))
+            return back()->with(['error'=> "Error: Conductor not specified"]);
+
+        if($request->has('print')){
+            $trips = Trip::with('vehicle')
+                ->where('conductor_id', $conductor_id)
+                ->whereDate('created_at', ">=", $start_date)
+                ->whereDate('created_at', "<=", $end_date)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $conductor = Conductor::find($conductor_id);
+
+            $data = ['trips'=> $trips,
+                'start_date'=> $start_date,
+                'end_date'=> $end_date,
+                "show"=> $show,
+                'conductor'=> $conductor
+            ];
+
+            return view('print_trip_report', $data);
         }
 
         $trips = Trip::with('vehicle')
@@ -52,8 +86,23 @@ class ReportsController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate($show);
 
+        $data = ['trips'=> $trips,
+            'start_date'=> $start_date,
+            'end_date'=> $end_date,
+            "show"=> $show,
+            'selected_conductor'=> $conductor_id
+            ];
 
-        return view('conductor.reports', ['trips'=> $trips, 'start_date'=> $start_date, 'end_date'=> $end_date, "show"=> $show]);
+        if(Auth::guard('admin')->check()){
+
+            $conductors = Conductor::all();
+            $data['conductors'] = $conductors;
+
+            return view('admin.reports', $data);
+        }
+
+
+        return view('conductor.reports', $data);
     }
 
     public function getTripRecordsForMember(Request $request){

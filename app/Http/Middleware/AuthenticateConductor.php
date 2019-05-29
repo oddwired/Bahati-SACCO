@@ -19,6 +19,8 @@ class AuthenticateConductor
         $guard = 'conductor';
 
         if(Auth::guard($guard)->check()){
+            Auth::guard('member')->logout();
+            Auth::guard('admin')->logout();
             return $next($request);
         }
         return redirect(url('conductor/login'));

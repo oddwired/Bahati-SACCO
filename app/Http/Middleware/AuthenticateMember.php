@@ -19,6 +19,8 @@ class AuthenticateMember
         $guard = 'member';
 
         if(Auth::guard($guard)->check()){
+            Auth::guard('admin')->logout();
+            Auth::guard('conductor')->logout();
             return $next($request);
         }
         return redirect(url('member/login'));

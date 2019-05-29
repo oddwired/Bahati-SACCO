@@ -66,7 +66,12 @@
                                         </div>
 
                                         <div class="row justify-content-center">
-                                            <button class="btn btn-primary">Get</button>
+                                            <div class="col-md-1">
+                                                <button class="btn btn-primary">Get</button>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button type="button" class="btn btn-primary" onclick="printReport()">Print</button>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -109,6 +114,16 @@
 @endsection
 @section('jscontent')
     <script>
+
+        function printReport(){
+            var form = $('#parameterForm');
+            form.append("<input type='hidden' id='printField' name='print' value='true'>");
+
+            window.open(window.location.protocol + "//"+window.location.host + window.location.pathname + "?" + form.serialize(), "Print Report");
+
+            $('#printField').remove();
+        }
+
         $(document).ready(function(){
             $('#start_date').datepicker({
                 dateFormat: "dd/mm/yy",

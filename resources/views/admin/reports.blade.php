@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <div class="container-fluid">
@@ -6,10 +6,11 @@
             <div class="col-sm-2 col-md-2 col-lg-1 col-xl-1">
                 <nav class="nav navbar-light navbar-toggleable-sm">
                     <div class="flex-column mt-md-0 mt-4 pt-md-0 pt-4" id="navbarWEX">
-                        <a class="nav-link" href="{{url('member')}}"><span class="fa fa-home"></span>Dashboard</a>
-                        <a href="{{url('member/vehicles')}}" class="nav-link">Vehicles</a>
-                        <a href="{{url('member/reports')}}" class="nav-link navbar-brand active">Reports</a>
-                        <a href="{{url('member/loans')}}" class="nav-link">Loans</a>
+                        <a class="nav-link" href="{{url('admin')}}"><span class="fa fa-home"></span>Dashboard</a>
+                        <a href="{{url('admin/members')}}" class="nav-link">Members</a>
+                        <a href="{{url('admin/conductors')}}" class="nav-link">Conductors</a>
+                        <a href="{{url('admin/conductor-reports')}}" class="nav-link navbar-brand active">Conductor Reports</a>
+                        <a href="{{url('admin/loans')}}" class="nav-link">Loans</a>
                     </div>
                 </nav>
             </div>
@@ -25,11 +26,21 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div class="card">
-                            <div class="card-header">Recorded Trips for all vehicles</div>
+                            <div class="card-header">Recorded Trips</div>
                             <div class="card-body">
                                 <div class="row justify-content-center">
                                     <form action="" method="get" id="parameterForm">
                                         <div class="row justify-content-center">
+                                            <div class="col-md-4">
+                                                <div class="form-group row">
+                                                    <label for="conductor" class="text-md-right">Conductor</label>
+                                                    <select name="conductor_id" id="conductor" class="form-control">
+                                                        @foreach($conductors as $conductor)
+                                                            <option value="{{$conductor->id}}" {{$selected_conductor == $conductor->id ? 'selected':''}}>{{$conductor->first_name}} {{$conductor->last_name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div class="col-md-2">
                                                 <label for="show">Show</label>
                                                 <select name="show" id="show" class="form-control" onchange="$('#parameterForm').submit()">
@@ -38,7 +49,7 @@
                                                     <option value="25" {{$show == 25 ? 'selected':''}}>25</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <div class="form-group row">
                                                     <label for="start_date" class="text-md-right">{{ __('Start Date') }}</label>
 
@@ -52,7 +63,7 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <div class="form-group row">
                                                     <label for="end_date" class="text-md-right">{{ __('End Date') }}</label>
 
@@ -65,31 +76,6 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            {{--<div class="col-md-2">
-                                                <div class="form-group row">
-                                                    <label for="orderBy">Sort By</label>
-                                                    <select name="order_by" id="orderBy" class="form-control">
-                                                        <option value="date" {{$order_by == "date"? "selected": ''}}>Date</option>
-                                                        <option value="registration" {{$order_by == "registration"? "selected": ''}}>Registration</option>
-                                                        <option value="amount" {{$order_by == "amount"? "selected": ''}}>Amount Collected</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <div class="form-group row">
-                                                    <label for="orderBy">Direction</label>
-                                                    <select name="direction" class="form-control" onchange="$('#parameterForm').submit()">
-                                                        <option value="asc" {{$direction == 'asc' ? "selected" : ''}}>ASCENDING</option>
-                                                        <option value="desc" {{$direction == 'desc' ? "selected" : ''}}>DESCENDING</option>
-                                                    </select>
-                                                </div>
-                                            </div>--}}
-                                        </div>
-
-                                        <div class="row justify-content-center">
-
-
                                         </div>
 
                                         <div class="row justify-content-center">
@@ -130,12 +116,7 @@
                             </div>
                         </div>
                         <div class="row justify-content-center">
-                            {{ $trips->appends([
-                            'start_date'=> $start_date,
-                            'end_date'=> $end_date,
-                            'show'=> $show
-                            ])
-                            ->links() }}
+                            {{ $trips->appends(['conductor_id'=> $selected_conductor,'start_date'=> $start_date, 'end_date'=> $end_date, 'show'=> $show])->links() }}
                         </div>
                     </div>
                 </div>
@@ -146,7 +127,6 @@
 @endsection
 @section('jscontent')
     <script>
-
         function printReport(){
             var form = $('#parameterForm');
             form.append("<input type='hidden' id='printField' name='print' value='true'>");

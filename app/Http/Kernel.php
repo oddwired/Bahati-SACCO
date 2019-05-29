@@ -2,6 +2,7 @@
 
 namespace BahatiSACCO\Http;
 
+use BahatiSACCO\Http\Middleware\CheckCompleteInformation;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -63,6 +64,7 @@ class Kernel extends HttpKernel
         'auth.admin' => \BahatiSACCO\Http\Middleware\AuthenticateAdmin::class,
         'auth.member' => \BahatiSACCO\Http\Middleware\AuthenticateMember::class,
         'auth.conductor' => \BahatiSACCO\Http\Middleware\AuthenticateConductor::class,
+        'member.info' => \BahatiSACCO\Http\Middleware\CheckCompleteInformation::class
     ];
 
     /**

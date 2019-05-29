@@ -10,7 +10,7 @@ class VehiclesController extends Controller
 {
     public function create(Request $request){
         $this->validate($request, [
-            "registration"=> ['required', 'regex:/^K[A-Z][A-Z]\s[0-9][0-9][0-9](|[A-Z])/', 'unique:vehicles'],
+            "registration"=> ['required', 'regex:/^K[A-Z][A-Z]\s[0-9][0-9][0-9](|[A-Z])$/', 'unique:vehicles'],
             "capacity"=> ["numeric"]
         ]);
 

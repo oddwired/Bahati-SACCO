@@ -28,4 +28,8 @@ class Member extends Authenticatable
     function vehicles(){
         return $this->hasMany(Vehicle::class, "owner_id", "id");
     }
+
+    function loans(){
+        return $this->hasMany(Loan::class, "member_id", "id");
+    }
 }

@@ -9,6 +9,8 @@
                         <a class="nav-link navbar-brand active" href="{{url('admin')}}"><span class="fa fa-home"></span>Dashboard</a>
                         <a href="{{url('admin/members')}}" class="nav-link">Members</a>
                         <a href="{{url('admin/conductors')}}" class="nav-link">Conductors</a>
+                        <a href="{{url('admin/conductor-reports')}}" class="nav-link">Conductor reports</a>
+                        <a href="{{url('admin/loans')}}" class="nav-link">Loans</a>
                     </div>
                 </nav>
             </div>

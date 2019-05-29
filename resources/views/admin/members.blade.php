@@ -9,6 +9,8 @@
                         <a class="nav-link" href="{{url('admin')}}"><span class="fa fa-home"></span>Dashboard</a>
                         <a href="{{url('admin/members')}}" class="nav-link navbar-brand active">Members</a>
                         <a href="{{url('admin/conductors')}}" class="nav-link">Conductors</a>
+                        <a href="{{url('admin/conductor-reports')}}" class="nav-link">Conductor reports</a>
+                        <a href="{{url('admin/loans')}}" class="nav-link">Loans</a>
                     </div>
                 </nav>
             </div>
@@ -37,7 +39,6 @@
                                         <th>Email</th>
                                         <th>Registered on</th>
                                         <th>Number of Vehicles</th>
-                                        <th>Is Active</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -45,9 +46,8 @@
                                         <tr>
                                             <td>{{$member->first_name}} {{$member->last_name}} </td>
                                             <td>{{$member->email}}</td>
-                                            <td>{{$member->created_at}}</td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{(new DateTime($member->created_at))->format('d/m/Y')}}</td>
+                                            <td>{{count($member->vehicles)}}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -128,6 +128,10 @@
     <script>
         $(document).ready(function (){
             $('#membersTable').dataTable();
+
+            @if(count($errors) > 0)
+                $('#newMemberModal').modal('show');
+            @endif
         });
     </script>
 @endsection

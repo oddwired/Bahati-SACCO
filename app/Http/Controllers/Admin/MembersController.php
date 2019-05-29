@@ -9,7 +9,7 @@ use BahatiSACCO\Http\Controllers\Controller;
 class MembersController extends Controller
 {
     public function index(){
-        $members = Member::all();
+        $members = Member::with('vehicles')->get();
 
         $data = [
             "members"=> $members

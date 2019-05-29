@@ -9,7 +9,7 @@ use BahatiSACCO\Http\Controllers\Controller;
 class ConductorsController extends Controller
 {
     public function index(){
-        $conductors = Conductor::all();
+        $conductors = Conductor::with('trips')->get();
         $data = [
             "conductors"=> $conductors
         ];

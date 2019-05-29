@@ -9,6 +9,7 @@
                         <a class="nav-link" href="{{url('admin')}}"><span class="fa fa-home"></span>Dashboard</a>
                         <a href="{{url('admin/members')}}" class="nav-link">Members</a>
                         <a href="{{url('admin/conductors')}}" class="nav-link navbar-brand active">Conductors</a>
+                        <a href="{{url('admin/conductor-reports')}}" class="nav-link">Conductor reports</a>
                     </div>
                 </nav>
             </div>
@@ -35,8 +36,7 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Registered on</th>
-                                        <th>Number of Vehicles</th>
-                                        <th>Is Active</th>
+                                        <th>Trips Recorded</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -44,9 +44,8 @@
                                         <tr>
                                             <td>{{$conductor->first_name}} {{$conductor->last_name}} </td>
                                             <td>{{$conductor->email}}</td>
-                                            <td>{{$conductor->created_at}}</td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{(new DateTime($conductor->created_at))->format('d/m/Y')}}</td>
+                                            <td>{{count($conductor->trips)}}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -121,4 +120,13 @@
             </div>
         </div>
     </div>
+@endsection
+@section('jscontent')
+    <script>
+        $(document).ready(function(){
+            @if(count($errors) > 0)
+                $('#newConductorModal').modal('show');
+            @endif
+        });
+    </script>
 @endsection

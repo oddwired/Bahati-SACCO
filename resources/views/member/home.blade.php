@@ -7,8 +7,9 @@
                 <nav class="nav navbar-light navbar-toggleable-sm">
                     <div class="flex-column mt-md-0 mt-4 pt-md-0 pt-4" id="navbarWEX">
                         <a class="nav-link navbar-brand active" href="{{url('member')}}"><span class="fa fa-home"></span>Dashboard</a>
-                        <a href="{{url('member/vehicles')}}" class="nav-link">My Vehicles</a>
+                        <a href="{{url('member/vehicles')}}" class="nav-link">Vehicles</a>
                         <a href="{{url('member/reports')}}" class="nav-link">Reports</a>
+                        <a href="{{url('member/loans')}}" class="nav-link">Loans</a>
                     </div>
                 </nav>
             </div>
@@ -23,7 +24,7 @@
 
                 <div class="row justify-content-center">
                     <div class="col-md-8">
-
+                        Dashboard
                     </div>
                 </div>
             </div>

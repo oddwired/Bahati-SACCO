@@ -42,7 +42,10 @@ Route::group(["prefix"=> "admin"], function(){
         /* Conductors */
         Route::get('conductors', "Admin\ConductorsController@index");
         Route::post('register-conductor', "Auth\Conductor\AuthController@register");
+        Route::get('conductor-reports', 'ReportsController@getTripsRecordedByConductor');
 
+        Route::get('loans', "Admin\LoanController@index");
+        Route::get('update-loan-status/{serial}', "Admin\LoanController@update");
     });
 });
 
@@ -61,11 +64,23 @@ Route::group(["prefix"=> "member"], function(){
 
     /* Authenticated routes */
     Route::group(["middleware"=> ["auth.member"]], function(){
-        Route::get("/", "Member\MemberController@index");
 
-        Route::get('vehicles', 'Member\MemberController@myVehicles');
-        Route::post('add-vehicle', 'VehiclesController@create');
-        Route::get("reports", "ReportsController@getTripRecordsForMember");
+        //Route::get('profile', 'Member\InformationController@get');
+        Route::get('edit-information', 'Member\InformationController@edit');
+        Route::post('edit-information', 'Member\InformationController@save');
+
+        Route::group(["middleware"=> ["member.info"]], function(){
+            Route::get("/", "Member\MemberController@index");
+
+            Route::get('vehicles', 'Member\MemberController@myVehicles');
+            Route::post('add-vehicle', 'VehiclesController@create');
+            Route::get("reports", "ReportsController@getTripRecordsForMember");
+
+            Route::get('loans', "Member\LoanController@index");
+            Route::get('apply-loan', "Member\LoanController@applyIndex");
+            Route::post('apply-loan', "Member\LoanController@apply");
+            Route::get('generate-application-form/{serial}', "Member\LoanController@generateApplicationForm");
+        });
     });
 });
 
